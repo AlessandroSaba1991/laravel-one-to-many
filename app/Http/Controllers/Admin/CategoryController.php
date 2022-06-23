@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -15,17 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $categories = Category::all()->sortDesc();
+        return view('admin.categories.index',compact('categories'));
     }
 
     /**
@@ -36,29 +29,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
+        $validate_data = $request->validate([
+            'name' => 'required|unique:categories'
+        ]);
+        //dd($validate_data);
+        $validate_data['slug'] = Str::slug($request->name);
+        Category::create($validate_data);
+        return redirect()->back()->with('status',"Category Created Successfully");
     }
 
     /**
@@ -70,7 +47,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $validate_data = $request->validate([
+            'name' => ['required', Rule::unique('categories')->ignore($category)]
+        ]);
+        //dd($validate_data);
+        $validate_data['slug'] = Str::slug($request->name);
+        $category->update($validate_data);
+        return redirect()->back()->with('status', "Category $category->name Update SuccessFully");
     }
 
     /**
@@ -81,6 +64,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->back()->with('status',"Category $category->name Delete Succesfully");
     }
 }
