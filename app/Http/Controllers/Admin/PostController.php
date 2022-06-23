@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Post;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
+
 
 class PostController extends Controller
 {
@@ -40,6 +40,7 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $validate_data = $request->validated();
+        $validate_data['slug'] = Str::slug($request->title);
         Post::create($validate_data);
         return redirect()->route('admin.posts.index')->with('status', 'Post Create SuccessFull');
     }
@@ -76,6 +77,7 @@ class PostController extends Controller
     public function update(PostRequest $request, Post $post)
     {
         $validate_data = $request->validated();
+        $validate_data['slug'] = Str::slug($request->title);
         $post->update($validate_data);
         return redirect()->route('admin.posts.show', compact('post'))->with('status', "Post $post->title Update SuccessFull");
     }
