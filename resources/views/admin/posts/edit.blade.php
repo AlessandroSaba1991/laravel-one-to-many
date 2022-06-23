@@ -20,6 +20,16 @@
                 @include('partials.single_errors',['variable' => 'image'])
             </div>
         </div>
+        <div class="mb-3">
+          <label for="category_id" class="form-label">Category</label>
+          <select class="form-control" name="category_id" id="category_id">
+            <option>Select Category</option>
+            @foreach($categories as $category)
+            <option value="{{$category->id}}" {{$post->category_id == old('category_id', $category->id) ? 'selected' : ''}} >{{$category->name}}</option>
+            @endforeach
+          </select>
+          @include('partials.single_errors',['variable' => 'category_id'])
+        </div>
         <div class="form-group">
             <div class="mb-3">
                 <label for="body" class="form-label">Body</label>

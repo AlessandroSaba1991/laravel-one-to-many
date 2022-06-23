@@ -8,6 +8,7 @@
             <tr>
                 <th>Id</th>
                 <th>Title</th>
+                <th>Category</th>
                 <th>Slug</th>
                 <th>Image</th>
                 <th>Body</th>
@@ -19,6 +20,7 @@
             <tr>
                 <td scope="row">{{$post->id}}</td>
                 <td>{{$post->title}}</td>
+                <td>{{$post->category ? $post->category->name : 'No Category'}}</td>
                 <td>{{$post->slug}}</td>
                 <td><img width="100" src="{{$post->image}}" alt=""></td>
                 <td>{{$post->body}}</td>

@@ -6,6 +6,7 @@
     <div class="card mx-auto w-50">
         <img class="img-fluid" src="{{$post->image}}" alt="{{$post->title}}">
         <div class="card-body">
+            <small>Category: {{$post->category ? $post->category->name : 'No Category'}}</small>
             <h2>{{$post->title}}</h2>
             <p>{{$post->body}}</p>
         </div>

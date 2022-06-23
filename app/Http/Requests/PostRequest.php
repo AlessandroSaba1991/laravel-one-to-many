@@ -31,7 +31,8 @@ class PostRequest extends FormRequest
                 Rule::unique('posts', 'title')->ignore($this->post)
             ],
             'body'=>['nullable'],
-            'image'=>['nullable']
+            'image'=>['nullable'],
+            'category_id' => ['nullable']
         ];
     }
 }
