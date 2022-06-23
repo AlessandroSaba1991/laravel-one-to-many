@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-<div class="container-fluid px-5">
+<div class="container">
     @include('partials.message')
     <div class="row">
         <div class="col-4">
@@ -25,6 +25,7 @@
                         <th>Id</th>
                         <th>Name</th>
                         <th>Slug</th>
+                        <th>Number Post</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -40,13 +41,18 @@
                             </form>
                         </td>
                         <td>{{$category->slug}}</td>
+                        <td class="text-center">
+                            <div class="bg-info badge p-2 text-white">
+                                {{count($category->posts)}}
+                            </div>
+                        </td>
                         <td class="d-flex">
-                        <button form="form-categories-{{$category->id}}" type="submit" class="btn btn-success mr-2">Update</button>
-                        <form action="{{route('admin.categories.destroy',$category->id)}}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                            <button form="form-categories-{{$category->id}}" type="submit" class="btn btn-success mr-2">Update</button>
+                            <form action="{{route('admin.categories.destroy',$category->id)}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
                         </td>
                     </tr>
                     @empty
